@@ -1,0 +1,4 @@
+http://www.w3schools.com/tags/tag_input.asp
+http://www.w3schools.com/php/php_form_validation.asp
+http://stackoverflow.com/questions/768431/how-to-make-a-redirect-in-php
+

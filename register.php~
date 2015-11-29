@@ -1,0 +1,107 @@
+<!DOCTYPE html> <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <title>Library</title>
+  </head> <body>
+    <h1>New User Form</h1>
+      <div align="left">
+      <font color="red"> Requried * </font>
+      <?php 
+	 $user = $pass = "";
+	 $fname = $mname = $lname = $email = $address = $strNum = $pcode = $gender = "";
+	 $nameErr = "";
+	 ?>
+
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+	  Username: <input type="text" name="user"/>*<br>
+	  Password:  <input type="text" name="pass"/>*<br> <br>
+	  First Name: <input type="text" name="fname"/>*<br>
+	  Middle Name: <input type="text" name="mname"/><br>
+	  Last Name: <input type="text" name="lname"/>*<br>
+	  Email: <input type="text" name="email"/><br>
+	  Address: <input type="text" name="address"/>*<br>
+	  Street Number: <input type="text" name="strNum"/>*<br>
+	  Postal-Code: <input type="text" name="pcode"/>*<br>
+	  Gender:
+	  <input type="radio" name="gender" value="female" checked="checked"> Female
+	  <input type="radio" name="gender" value="male">Male*<br>
+	  <input type="submit" value="Submit"/>
+	</form>
+
+    <?php
+       $user = 'root';
+       $password = 'root';
+       $db = 'library';
+       $host = 'localhost';
+       $port = 8889;
+
+       $con = mysqli_connect($host, $user,$password, $db) or die("some error");
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // check for valid input
+       if(checker()){
+       //add user to the database
+       echo "new user made!";
+       // make proper member table?
+       $query = "INSERT INTO member VALUES ()";
+       $result = mysqli_query($con, $query);
+       if(!$result){
+       echo "fail to insert";
+       }else{
+       
+       }
+      // redirect to home page.. idk .. header("Location: /Index.php");
+       exit();
+       }else{
+       // do something
+       }
+    }
+
+    function checker(){
+       $valid = True;
+       $user = $_POST["user"];
+       if($user == ""){
+       echo "yes";
+       $valid = False;
+       }
+       $pass = $_POST["pass"]; 
+       if($pass == ""){
+       echo "password can't be null" . '<br>';
+       $valid = False;
+       }      
+       $fname = $_POST["fname"];
+       if($fname == ""){
+       echo "first name can't be null" . '<br>';
+       $valid = False;
+       }
+       $mname = $_POST["mname"];
+       $lname = $_POST["lname"];
+       if($lname == ""){
+       echo "lastname can't be null" . '<br>';
+       $valid = False;
+       }
+       $email = $_POST["email"];
+       $address = $_POST["address"];
+       if($address == ""){
+       echo "address can't be null" . '<br>';
+       $valid = False;
+       }
+       $strNum = $_POST["strNum"];
+       if($address == ""){
+       echo "street number can't be null" . '<br>';
+       $valid = False;
+       }
+       $pcode = $_POST["pcode"];
+       if($pcode == ""){
+       echo "postal code can't be null" . '<br>';
+       $valid = False;
+       }
+       $gender = $_POST["gender"];
+       return $valid;
+    }
+       ?>
+
+
+
+ </body>
+
+</html>

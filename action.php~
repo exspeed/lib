@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <body>
+
+    <form>
+      <input type="radio" name="sex" value="male" checked> Male
+      <br>
+      <input type="radio" name="sex" value="female"> Female
+    </form> 
+    <br>
+
+    <?php 
+       // validate stuff
+       echo 'hello ' . $_POST["fname"] . '<br>';
+       echo $_POST["lname"];
+       
+       ?>
+
+  </body>
+</html>
