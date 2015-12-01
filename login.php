@@ -114,12 +114,13 @@ th, td {
 			}
 			$query = mysqli_query ( $con, $strSQL );
 			echo "<table style=\"width:100 %\">";
-			echo "<tr><th>Title</th><th>Author</th><th>Publisher</th></tr>";
+			echo "<tr><th>Title</th><th>Author</th><th>Publisher</th><th>ISBN</th></tr>";
 			while ( $result = mysqli_fetch_array ( $query ) ) {
 				echo '<tr>';
 				echo '<td>' . $result ['title'] . '</td>';
 				echo '<td>' . $result ['author'] . '</td>';
 				echo '<td>' . $result ['publisher'] . '</td>';
+				echo '<td>' . $result['isbn'] . '</td>';
 				echo '</tr>';
 			}
 			echo '</table>';

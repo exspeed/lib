@@ -45,7 +45,7 @@ $con = mysqli_connect ( $host, 'root', 'root', $db ) or die ( "some error" );
 
 
 <?php
-$authorErr = $publisherErr = $checkoutErr = "";
+$authorErr = $publisherErr = $checkoutErr = $returnErr= "";
 if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 	if (! empty ( $_POST ['addbook'] )) {
 		$title = $_POST ['title'];
@@ -90,46 +90,54 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 	}
 	
 	if (! empty ( $_POST ['checkout'] )) {
+		
 		$memberID = $_POST ['memberid'];
 		$book_isbn = $_POST ['bookisbn'];
-		
-		$strSQL = "SELECT available FROM book WHERE isbn = $book_isbn";
-		$query = mysqli_query ( $con, $strSQL );
-		if (! $query) {
-			echo mysqli_error ( $con );
-			exit ();
-		}
-		while ( $result = mysqli_fetch_array ( $query ) ) {
-			if ($result ['available'] == 1) {
-				$today = date ( "Y-m-d" );
-				$date = date ( 'Y-m-d', strtotime ( $today . '+ 14 days' ) );
-				$strSQL = "INSERT INTO memberborrowsbook (memberID, isbn, dueDate)
-				VALUES ('$memberID', '$book_isbn', '$date')";
-				
-				$result = mysqli_query ( $con, $strSQL );
-				
-				$strSQL = "UPDATE book SET available ='0' WHERE isbn= $book_isbn";
-				$result = mysqli_query($con, $strSQL);
+		if (! ($memberID == '' || $book_isbn == '')) {
+			
+			$strSQL = "SELECT available FROM book WHERE isbn = $book_isbn";
+			$query = mysqli_query ( $con, $strSQL );
+			if (! $query) {
+				echo mysqli_error ( $con );
+				exit ();
 			}
+			while ( $result = mysqli_fetch_array ( $query ) ) {
+				if ($result ['available'] == 1) {
+					$today = date ( "Y-m-d" );
+					$date = date ( 'Y-m-d', strtotime ( $today . '+ 14 days' ) );
+					$strSQL = "INSERT INTO memberborrowsbook (memberID, isbn, dueDate)
+				VALUES ('$memberID', '$book_isbn', '$date')";
+					
+					$result = mysqli_query ( $con, $strSQL );
+					
+					$strSQL = "UPDATE book SET available ='0' WHERE isbn= $book_isbn";
+					$result = mysqli_query ( $con, $strSQL );
+				}
+			}
+		}else{
+			$checkoutErr ='field can\'t be empty';
 		}
 	}
 	
-	if(! empty($_POST['return'])){
-		$memberID = $_POST['memberid'];
-		$book_isbn = $_POST['bookisbn'];
-		
-		$strSQL = "DELETE FROM memberborrowsbook WHERE 
+	if (! empty ( $_POST ['return'] )) {
+		$memberID = $_POST ['memberid'];
+		$book_isbn = $_POST ['bookisbn'];
+		if (! ($memberID == '' || $book_isbn == '')) {
+			
+			$strSQL = "DELETE FROM memberborrowsbook WHERE 
 		memberID = $memberID AND isbn = $book_isbn";
-		$query = mysqli_query($con, $strSQL);
-		if (! $query) {
-			echo mysqli_error ( $con );
+			$query = mysqli_query ( $con, $strSQL );
+			if (! $query) {
+				echo mysqli_error ( $con );
+			}
+			
+			$strSQL = "UPDATE book SET available = '1' WHERE isbn = $book_isbn";
+			$query = mysqli_query ( $con, $strSQL );
 		}
-		
-		$strSQL = "UPDATE book SET available = '1' WHERE isbn = $book_isbn";
-		$query = mysqli_query($con, $strSQL);
-		
+		else{
+			$returnErr = 'field can\'t be empty';
+		}
 	}
-	
 }
 ?>
 
@@ -157,7 +165,7 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
 	method="post">
 	MemberID: <input type="text" name="memberid" /><br> Book ISBN: <input
-		type="text" name="bookisbn" /> <br> <input type="submit"
-		name="return" value="return" /> <br> <?php echo $checkoutErr; ?>	
+		type="text" name="bookisbn" /> <br> <input type="submit" name="return"
+		value="return" /> <br> <?php echo $returnErr; ?>	
 </form>
 </html>
