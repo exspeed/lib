@@ -40,6 +40,7 @@ if ($goback) {
 
 <!DOCTYPE html>
 <html>
+
 <body>
 
 	<h1>Account</h1>

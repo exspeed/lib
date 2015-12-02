@@ -2,22 +2,20 @@
 <html>
 <head>
 <style>
-.error {color: #FF0000;}
+.error {
+	color: #FF0000;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Library</title>
 </head>
 <body>
-	<h1>New User Form</h1>
-	<font color="red"> Required * </font>
-
 
 
 <?php
 $user = $pass = "";
 $fname = $mname = $lname = $email = $address = $strNum = $pcode = $gender = "";
 $userErr = $passErr = $fnameErr = $lnameErr = $addressErr = $strNumErr = $pcodeErr = "";
-
 $db = 'library';
 $host = 'localhost';
 $port = 8889;
@@ -56,7 +54,6 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 		if (! $result) {
 			echo "new address entree failed" . '<br>';
 		}
-		
 	}
 }
 function checker() {
@@ -106,29 +103,42 @@ function checker() {
 }
 ?>
 
-
+	<table width="100%" border="0">
+		<tr>
+			<td colspan="2" bgcolor="#9999ff" align="center">
+				<h1>New User Form</h1>
+			</td>
+		</tr>
+		<tr>
+		<td width="35%"></td>
+			<td width= "80%"><font color="red"> Required * </font>
 
   
 		<form method="post"
-		action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-		Username: <input type="text" name="user" /> <span class="error">*<?php echo $userErr;?></span><br>
+					action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+					Username: <input type="text" name="user" /> <span class="error">*<?php echo $userErr;?></span><br>
 
-		Password: <input type="text" name="pass" /> <span class="error">*<?php echo $passErr;?></span><br>
-		<br> First Name: <input type="text" name="fname" /> <span
-			class="error">*<?php echo $fnameErr;?></span><br> Middle Name: <input
-			type="text" name="mname" /><br> Last Name: <input type="text"
-			name="lname" /> <span class="error">*<?php echo $lnameErr;?></span><br>
-		Email: <input type="text" name="email" /><br> Address: <input
-			type="text" name="address" /> <span class="error">*<?php echo $addressErr;?></span><br>
+					Password: <input type="text" name="pass" /> <span class="error">*<?php echo $passErr;?></span><br>
+					<br> First Name: <input type="text" name="fname" /> <span
+						class="error">*<?php echo $fnameErr;?></span><br> Middle Name: <input
+						type="text" name="mname" /><br> Last Name: <input type="text"
+						name="lname" /> <span class="error">*<?php echo $lnameErr;?></span><br>
+					Email: <input type="text" name="email" /><br> Address: <input
+						type="text" name="address" /> <span class="error">*<?php echo $addressErr;?></span><br>
 
-		Street Number: <input type="text" name="strNum" /> <span class="error">*<?php echo $strNumErr;?></span><br>
-		Postal-Code: <input type="text" name="pcode" /> <span class="error">*<?php echo $pcodeErr;?></span><br>
-		Gender: <input type="radio" name="gender" value="female"
-			checked="checked"> Female <input type="radio" name="gender"
-			value="male">Male*<br> <input type="submit" value="Submit" />
-	</form>
-	<br>
+					Street Number: <input type="text" name="strNum" /> <span
+						class="error">*<?php echo $strNumErr;?></span><br> Postal-Code: <input
+						type="text" name="pcode" /> <span class="error">*<?php echo $pcodeErr;?></span><br>
+					Gender: <input type="radio" name="gender" value="female"
+						checked="checked"> Female <input type="radio" name="gender"
+						value="male">Male*<br> <input type="submit" value="Submit" />
+				</form> <br></td>
+		</tr>
+
+	</table>
+
 	<a href="/index.php"> Go back</a>
+
 
 </body>
 

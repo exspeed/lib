@@ -16,36 +16,12 @@ $con = mysqli_connect ( $host, 'root', 'root', $db ) or die ( "some error" );
 </style>
 <title>Employee</title>
 </head>
-<body>
 
-	<h1>Employee</h1>
-	<h3>Add Books</h3>
-	<form name="addbooks"
-		action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
-		method="post">
-		title: <input type="text" name="title" /> <span class="error"> <?php $titleErr = ""; echo $titleErr;?></span>
-		<br> author:<select name="author"> <?php
-		$strSQL = "SELECT name FROM author";
-		$query = mysqli_query ( $con, $strSQL );
-		while ( $result = mysqli_fetch_assoc ( $query ) ) {
-			echo '<option value=' . '"' . $result ['name'] . '"' . '>' . $result ['name'] . '</option>';
-		}
-		?></select><br> publisher: <select name="publisher">
-			<?php
-			$strSQL = "SELECT name FROM publisher";
-			$query = mysqli_query ( $con, $strSQL );
-			while ( $result = mysqli_fetch_assoc ( $query ) ) {
-				echo '<option value=' . '"' . $result ['name'] . '"' . '>' . $result ['name'] . '</option>';
-			}
-			?>
-			</select> <input type="submit" name="addbook" value="add" />
-	</form>
-	<br>
-</body>
+
 
 
 <?php
-$authorErr = $publisherErr = $checkoutErr = $returnErr= "";
+$authorErr = $publisherErr = $checkoutErr = $returnErr = "";
 if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 	if (! empty ( $_POST ['addbook'] )) {
 		$title = $_POST ['title'];
@@ -114,8 +90,8 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 					$result = mysqli_query ( $con, $strSQL );
 				}
 			}
-		}else{
-			$checkoutErr ='field can\'t be empty';
+		} else {
+			$checkoutErr = 'field can\'t be empty';
 		}
 	}
 	
@@ -133,39 +109,74 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 			
 			$strSQL = "UPDATE book SET available = '1' WHERE isbn = $book_isbn";
 			$query = mysqli_query ( $con, $strSQL );
-		}
-		else{
+		} else {
 			$returnErr = 'field can\'t be empty';
 		}
 	}
 }
 ?>
+<body>
+	<table width="100%" boarder="0">
+		<tr>
+			<td colspan="2" width="100%" align="center" bgcolor="#9999ff">
+				<h1>Employee</h1>
+			</td>
+		</tr>
+	<tr><td align="left" bgcolor ="#E6E6E6" style='padding-left: 20px' >
+	<h3>Add Books</h3>
+	<form name="addbooks"
+		action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+		method="post">
+		title: <input type="text" name="title" /> <span class="error"> <?php $titleErr = ""; echo $titleErr;?></span>
+		<br> author:<select name="author"> <?php
+		$strSQL = "SELECT name FROM author";
+		$query = mysqli_query ( $con, $strSQL );
+		while ( $result = mysqli_fetch_assoc ( $query ) ) {
+			echo '<option value=' . '"' . $result ['name'] . '"' . '>' . $result ['name'] . '</option>';
+		}
+		?></select><br> publisher: <select name="publisher">
+			<?php
+			$strSQL = "SELECT name FROM publisher";
+			$query = mysqli_query ( $con, $strSQL );
+			while ( $result = mysqli_fetch_assoc ( $query ) ) {
+				echo '<option value=' . '"' . $result ['name'] . '"' . '>' . $result ['name'] . '</option>';
+			}
+			?>
+			</select> <input type="submit" name="addbook" value="add" />
+	</form>
+	<br>
+	<h3>Add Authors</h3>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+		method="post">
+		Author: <input type="text" name="name" /> <input type="submit"
+			name="addauthor" value="add" /> <br> <?php echo $authorErr; ?>
+</form>
+	<h3>Add Publisher</h3>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+		method="post">
+		Publisher: <input type="text" name="name" /> <input type="submit"
+			name="addpublisher" value="add" /> <br> <?php echo $publisherErr; ?>	
+</form><br>
+</td><td bgcolor ="#E6E6E6" style='padding-left: 20px'>
+	<h3>Member Checks Out Book</h3>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+		method="post">
+		MemberID: <input type="text" name="memberid" /><br> Book ISBN: <input
+			type="text" name="bookisbn" /> <br> <input type="submit"
+			name="checkout" value="checkout" /> <br> <?php echo $checkoutErr; ?>	
+</form>
 
-<h3>Add Authors</h3>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
-	method="post">
-	Author: <input type="text" name="name" /> <input type="submit"
-		name="addauthor" value="add" /> <br> <?php echo $authorErr; ?>
+	<h3>Member Returns Book</h3>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+		method="post">
+		MemberID: <input type="text" name="memberid" /><br> Book ISBN: <input
+			type="text" name="bookisbn" /> <br> <input type="submit"
+			name="return" value="return" /> <br> <?php echo $returnErr; ?>	
 </form>
-<h3>Add Publisher</h3>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
-	method="post">
-	Publisher: <input type="text" name="name" /> <input type="submit"
-		name="addpublisher" value="add" /> <br> <?php echo $publisherErr; ?>	
-</form>
-<h3>Member Checks Out Book</h3>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
-	method="post">
-	MemberID: <input type="text" name="memberid" /><br> Book ISBN: <input
-		type="text" name="bookisbn" /> <br> <input type="submit"
-		name="checkout" value="checkout" /> <br> <?php echo $checkoutErr; ?>	
-</form>
+</td>
+</tr>
+</table>
+	<a href="/index.php"> Go back</a>
 
-<h3>Member Returns Book</h3>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
-	method="post">
-	MemberID: <input type="text" name="memberid" /><br> Book ISBN: <input
-		type="text" name="bookisbn" /> <br> <input type="submit" name="return"
-		value="return" /> <br> <?php echo $returnErr; ?>	
-</form>
+</body>
 </html>
