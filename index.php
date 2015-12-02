@@ -31,8 +31,8 @@ $con = mysqli_connect ( $host, $user, $password, $db ) or die ( "some error" );
 				<h1>Library Data Base</h1></td>
 		</tr>
 		<tr>
-			<td width="20%" bgcolor="#cccccc" height="300"><a href="employee.php">employees</a></td>
-			<td width="80%" valign="top">
+			<td width="20%" valign="top"  bgcolor="#cccccc" height="300" style="padding-left: 20px"><a href="employee.php"><br>employees</a></td>
+			<td width="80%" valign="top" style="padding-left: 40px">
 				<h3>Sign in</h3>
       <?php
 						if (isset ( $_GET ['incorrect'] )) {
