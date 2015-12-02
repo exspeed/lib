@@ -40,6 +40,21 @@ if ($goback) {
 
 <!DOCTYPE html>
 <html>
+
+<body>
+
+	<h1>Account Summary</h1>
+	<h2>Welcome <?php echo "$fname  $lname" ?></h2>
+
+	<h3>Your Address: <?php echo "$number $street $postalCode";?><br>
+      You owe us: <?php echo $fines; ?> <br>
+      Number of books borrowed: <?php echo $totalBorrowed; ?><br>
+      MemberID is <?php echo $memberID?>
+    </h3>
+
+
+
+</body>
 <style>
 table, th, td {
 	border: 1px solid black;
@@ -50,32 +65,11 @@ th, td {
 	padding: 5px;
 }
 </style>
-
-<body>
-	<table width="100%" boarder="0">
-		<tr>
-			<td colspan="2" width=%100 align="center" bgcolor="#9999ff">
-				<h1>Account</h1>
-			</td>
-		</tr>
-
-
-		<tr>
-			<td bgcolor="#E6E6E6">
-				<h2>Welcome <?php echo "$fname  $lname" ?></h2>
-
-				<h3>Your Address: <?php echo "$number $street $postalCode";?><br>
-      You owe us: <?php echo $fines; ?> <br>
-      Number of books borrowed: <?php echo $totalBorrowed; ?><br>
-      MemberID is <?php echo $memberID?>
-    </h3>
-			
-			<td align="center">
-				<h3>Your Books</h3>
+<h3>Your Books</h3>
 	<?php
 	$strSQL = "SELECT * 
-	FROM book INNER JOIN memberborrowsbook 
-	WHERE book.isbn = memberborrowsbook.isbn 
+			   FROM book INNER JOIN memberborrowsbook 
+			   WHERE book.isbn = memberborrowsbook.isbn 
 		AND memberborrowsbook.memberid = $memberID
 		ORDER BY book.title";
 	$query = mysqli_query ( $con, $strSQL );
@@ -95,23 +89,15 @@ th, td {
 	}
 	echo '</table>';
 	?>
-	</td>
-		
-		
-		<tr>
-	
-	</table>
-
-
-	<h3>Available Books</h3>
-	<form action="" method="post">
-		Search: <input type="text" name="name" /> By: <input type="radio"
-			name="search" value="title" checked="checked"> Title <input
-			type="radio" name="search" value="author">Author <input type="hidden"
-			name="username" value="<?php echo $_POST['username']?>"> <input
-			type="hidden" name="password" value="<?php echo $_POST['password']?>">
-		<input type="submit" name="submit" value="Go" /><br> <br>
-	</form>
+<h3>Available Books</h3>
+<form action="" method="post">
+	Search: <input type="text" name="name" /> By: <input type="radio"
+		name="search" value="title" checked="checked"> Title <input
+		type="radio" name="search" value="author">Author <input type="hidden"
+		name="username" value="<?php echo $_POST['username']?>"> <input
+		type="hidden" name="password" value="<?php echo $_POST['password']?>">
+	<input type="submit" name="submit" value="Go" /><br> <br>
+</form>
 
   <?php
 		if (! empty ( $_POST ['submit'] )) {
@@ -121,11 +107,11 @@ th, td {
 			} else if ($_POST ['search'] == 'title') {
 				$title = $_POST ['name'];
 				$strSQL = "SELECT * FROM book WHERE available = 1 AND
-				title LIKE '$title%'";
+				title = '$title'";
 			} else {
 				$author = $_POST ['name'];
 				$strSQL = "SELECT * FROM book WHERE available = 1 AND
-				author LIKE '$author%'";
+				author = '$author'";
 			}
 			$query = mysqli_query ( $con, $strSQL );
 			echo "<table style=\"width:100 %\">";
@@ -142,7 +128,5 @@ th, td {
 		}
 		?>
 		
-			<a href="/index.php"> Go back</a>
-
-</body>
+	<a href="index.php">Back to Main Page</a>
 </html>
