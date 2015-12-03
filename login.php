@@ -24,11 +24,19 @@ while ( $result = mysqli_fetch_array ( $query ) ) {
 		$postalCode = $result ['postalCode'];
 		$fname = $result ['fname'];
 		$lname = $result ['lname'];
-		$fines = $result ['fines'];
 		$strSQL = "SELECT COUNT(*) as total FROM memberborrowsbook WHERE memberID= $memberID";
-		$query = mysqli_query ( $con, $strSQL );
-		$data = mysqli_fetch_assoc ( $query );
+		$query1 = mysqli_query ( $con, $strSQL );
+		$data = mysqli_fetch_assoc ( $query1 );
 		$totalBorrowed = $data ['total'];
+		$strSQL = "SELECT dueDate FROM memberborrowsbook WHERE memberID= $memberID";
+		$query1 = mysqli_query ( $con, $strSQL );
+		$date = time();
+		$fines = 0;
+		while($result1 = mysqli_fetch_array ( $query1 )){
+			if(strtotime($result1['dueDate']) < $date){
+				$fines = $fines + 1.25;
+			}
+		}
 	}
 }
 
@@ -65,7 +73,7 @@ th, td {
 				<h2>Welcome <?php echo "$fname  $lname" ?></h2>
 
 				<h3>Your Address: <?php echo "$number $street $postalCode";?><br>
-      You owe us: <?php echo $fines; ?> <br>
+      You owe us: $<?php echo $fines; ?> <br>
       Number of books borrowed: <?php echo $totalBorrowed; ?><br>
       MemberID is <?php echo $memberID?>
     </h3>
