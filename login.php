@@ -30,10 +30,10 @@ while ( $result = mysqli_fetch_array ( $query ) ) {
 		$totalBorrowed = $data ['total'];
 		$strSQL = "SELECT dueDate FROM memberborrowsbook WHERE memberID= $memberID";
 		$query1 = mysqli_query ( $con, $strSQL );
-		$date = time();
+		$date = time ();
 		$fines = 0;
-		while($result1 = mysqli_fetch_array ( $query1 )){
-			if(strtotime($result1['dueDate']) < $date){
+		while ( $result1 = mysqli_fetch_array ( $query1 ) ) {
+			if (strtotime ( $result1 ['dueDate'] ) < $date) {
 				$fines = $fines + 1.25;
 			}
 		}
@@ -48,6 +48,7 @@ if ($goback) {
 
 <!DOCTYPE html>
 <html>
+
 <style>
 table, th, td {
 	border: 1px solid black;
@@ -58,7 +59,6 @@ th, td {
 	padding: 5px;
 }
 </style>
-
 <body>
 	<table width="100%" boarder="0">
 		<tr>
@@ -80,10 +80,11 @@ th, td {
 			
 			<td align="center">
 				<h3>Your Books</h3>
+				<h3>Your Books</h3>
 	<?php
 	$strSQL = "SELECT * 
-	FROM book INNER JOIN memberborrowsbook 
-	WHERE book.isbn = memberborrowsbook.isbn 
+			   FROM book INNER JOIN memberborrowsbook 
+			   WHERE book.isbn = memberborrowsbook.isbn 
 		AND memberborrowsbook.memberid = $memberID
 		ORDER BY book.title";
 	$query = mysqli_query ( $con, $strSQL );
@@ -103,23 +104,16 @@ th, td {
 	}
 	echo '</table>';
 	?>
-	</td>
-		
-		
-		<tr>
-	
-	</table>
-
-
-	<h3>Available Books</h3>
-	<form action="" method="post">
-		Search: <input type="text" name="name" /> By: <input type="radio"
-			name="search" value="title" checked="checked"> Title <input
-			type="radio" name="search" value="author">Author <input type="hidden"
-			name="username" value="<?php echo $_POST['username']?>"> <input
-			type="hidden" name="password" value="<?php echo $_POST['password']?>">
-		<input type="submit" name="submit" value="Go" /><br> <br>
-	</form>
+<h3>Available Books</h3>
+				<form action="" method="post">
+					Search: <input type="text" name="name" /> By: <input type="radio"
+						name="search" value="title" checked="checked"> Title <input
+						type="radio" name="search" value="author">Author <input
+						type="hidden" name="username"
+						value="<?php echo $_POST['username']?>"> <input type="hidden"
+						name="password" value="<?php echo $_POST['password']?>"> <input
+						type="submit" name="submit" value="Go" /><br> <br>
+				</form>
 
   <?php
 		if (! empty ( $_POST ['submit'] )) {
@@ -129,11 +123,11 @@ th, td {
 			} else if ($_POST ['search'] == 'title') {
 				$title = $_POST ['name'];
 				$strSQL = "SELECT * FROM book WHERE available = 1 AND
-				title LIKE '$title%'";
+				title = '$title'";
 			} else {
 				$author = $_POST ['name'];
 				$strSQL = "SELECT * FROM book WHERE available = 1 AND
-				author LIKE '$author%'";
+				author = '$author'";
 			}
 			$query = mysqli_query ( $con, $strSQL );
 			echo "<table style=\"width:100 %\">";
@@ -150,7 +144,5 @@ th, td {
 		}
 		?>
 		
-			<a href="/index.php"> Go back</a>
-
-</body>
-</html>
+	<a href="index.php">Back to Main Page</a>
+				</html>
