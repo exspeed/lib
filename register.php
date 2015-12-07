@@ -118,7 +118,7 @@ function checker() {
 </head>
 
 <body>
-	<table width="100%" border="0">
+	<table width="100%">
 		<tr>
 			<td colspan="2" bgcolor="#9999ff" align="center">
 				<h1>New User Form</h1>
@@ -168,7 +168,7 @@ function checker() {
 						</tr>
 						<tr>
 							<td></td>
-							<td style="text-align:right">Email &nbsp</td>
+							<td style="text-align:right">Email &nbsp;</td>
 							<td><input type="text" name="email" /></td>
 							<td></td>
 						</tr>

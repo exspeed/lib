@@ -30,7 +30,8 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 		} else {
 			$author = $_POST ['author'];
 			$publisher = $_POST ['publisher'];
-			$strSQL = "INSERT INTO book (title, author, publisher) VALUES ('$title', '$author', '$publisher')";
+			$library = $_POST ['library'];
+			$strSQL = "INSERT INTO book (title, author, publisher, location) VALUES ('$title', '$author', '$publisher', '$library')";
 			$result = mysqli_query ( $con, $strSQL );
 			if (! $result) {
 				echo 'book entry failed';
@@ -42,7 +43,7 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 	
 	if (! empty ( $_POST ['addauthor'] )) {
 		$author = $_POST ['name'];
-		if ($authorErr == '') {
+		if ($author == '') {
 			$authorErr = "field can't be empty";
 		} else {
 			$strSQL = "INSERT INTO author (name) VALUES ('$author')";
@@ -88,6 +89,10 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 					
 					$strSQL = "UPDATE book SET available ='0' WHERE isbn= $book_isbn";
 					$result = mysqli_query ( $con, $strSQL );
+					
+					$type = "CHK";
+					$strSQL = "INSERT INTO record (isbn, memberID, date, type) VALUES ('$book_isbn', '$memberID', '$today', '$type')";
+					$result = mysqli_query ( $con, $strSQL );
 				}
 			}
 		} else {
@@ -109,6 +114,11 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 			
 			$strSQL = "UPDATE book SET available = '1' WHERE isbn = $book_isbn";
 			$query = mysqli_query ( $con, $strSQL );
+			
+			$type = "RET";
+			$today = date('Y-m-d');
+			$strSQL = "INSERT INTO record (isbn, memberID, date, type) VALUES ('$book_isbn', '$memberID', '$today', '$type')";
+			$result = mysqli_query ( $con, $strSQL );
 		} else {
 			$returnErr = 'field can\'t be empty';
 		}
@@ -142,7 +152,19 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 				echo '<option value=' . '"' . $result ['name'] . '"' . '>' . $result ['name'] . '</option>';
 			}
 			?>
-			</select> <input type="submit" name="addbook" value="add" />
+		
+			</select> <br>
+			Library:
+				<select name="library">
+				<?php
+					$strSQL = "SELECT name FROM library";
+					$query = mysqli_query ( $con, $strSQL );
+					while ( $result = mysqli_fetch_assoc ( $query ) ) {
+						echo '<option value=' . '"' . $result ['name'] . '"' . '>' . $result ['name'] . '</option>';
+					}
+				?>
+				</select><br><input type="submit" name="addbook" value="add" />
+			
 	</form>
 	<br>
 	<h3>Add Authors</h3>
@@ -176,7 +198,8 @@ if ($_SERVER ["REQUEST_METHOD"] == "POST") {
 </td>
 </tr>
 </table>
-	<a href="/index.php"> Go back</a>
+	<a href="log.php"><br>View Logs</br></a>
+	<a href="/index.php">Back to Main Page</a>
 
 </body>
 </html>
